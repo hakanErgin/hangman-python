@@ -19,12 +19,15 @@ class Hangman:
         print("please enter a letter")
         letter = input().lower()
         if re.match("^[a-zA-Z]$", letter):
-            print(self.correctly_guessed_letters)
             if letter in self.word_to_find:
+                # self.correctly_guessed_letters = 
+                indices = [i for i, x in enumerate(self.word_to_find) if x == letter]
+                print(indices)
                 print("yes")
             else :
                 self.lives -= 1
                 print("no")
+        print(self.correctly_guessed_letters)
         
     def start_game(self):
         self.word_to_find = list(random.choice(self.possible_words))
