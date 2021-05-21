@@ -16,31 +16,37 @@ class Hangman:
         self.error_count: int = 0
 
     def play(self):
-        print("please enter a letter")
+        print(" ".join(self.correctly_guessed_letters))
+        print("enter a letter")
         letter = input().lower()
         if re.match("^[a-zA-Z]$", letter):
+            self.turn_count += 1
             if letter in self.word_to_find:
                 letter_occurances = [i for i, x in enumerate(self.word_to_find) if x == letter] # get indexes of the matching elements
                 for i in letter_occurances:
                   self.correctly_guessed_letters[i] = letter
             else :
                 self.lives -= 1
-                print("no")
                 self.wrongly_guessed_letters.append(letter)
                 self.error_count += 1
-        print(" ".join(self.correctly_guessed_letters))
+            print(f"\n bad guesses: {self.wrongly_guessed_letters}" + f"\n lives: {self.lives}" + f"\n turn count: {self.turn_count}" + f"\n error count: {self.error_count}")
+        else:
+            print("please enter only one alphabetic letter")
         
     def start_game(self):
         self.word_to_find = list(random.choice(self.possible_words))
         self.correctly_guessed_letters = list("_" * len(self.word_to_find))
-        print(self.word_to_find)
-        while self.lives > 0:
-            print(self.lives)
+        while self.lives > 0 and "_" in self.correctly_guessed_letters:
             self.play()
+        else:
+            if self.lives == 0:
+                self.game_over()
+            elif not "_" in self.correctly_guessed_letters:
+                self.well_played()
 
-    def game_over():
+    def game_over(self):
         print("game over...")
 
     def well_played(self):
-        print(f"You found the word: {self.word_to_find_here} in {self.turn_count_here} turns with {self.error_count_here} errors!")
+        print(f"You found the word: {''.join(self.word_to_find)} in {self.turn_count} turns with {self.error_count} errors!")
 
