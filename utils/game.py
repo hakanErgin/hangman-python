@@ -20,26 +20,27 @@ class Hangman:
         letter = input().lower()
         if re.match("^[a-zA-Z]$", letter):
             if letter in self.word_to_find:
-                # self.correctly_guessed_letters = 
-                indices = [i for i, x in enumerate(self.word_to_find) if x == letter]
-                print(indices)
-                print("yes")
+                letter_occurances = [i for i, x in enumerate(self.word_to_find) if x == letter] # get indexes of the matching elements
+                for i in letter_occurances:
+                  self.correctly_guessed_letters[i] = letter
             else :
                 self.lives -= 1
                 print("no")
-        print(self.correctly_guessed_letters)
+                self.wrongly_guessed_letters.append(letter)
+                self.error_count += 1
+        print(" ".join(self.correctly_guessed_letters))
         
     def start_game(self):
         self.word_to_find = list(random.choice(self.possible_words))
-        self.correctly_guessed_letters = "_" * len(self.word_to_find)
+        self.correctly_guessed_letters = list("_" * len(self.word_to_find))
         print(self.word_to_find)
         while self.lives > 0:
             print(self.lives)
             self.play()
 
     def game_over():
-        pass
+        print("game over...")
 
-    def well_played():
-        pass
+    def well_played(self):
+        print(f"You found the word: {self.word_to_find_here} in {self.turn_count_here} turns with {self.error_count_here} errors!")
 
